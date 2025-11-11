@@ -77,4 +77,10 @@ end, { desc = "Run current file" })
 vim.keymap.set("n", "<leader>R", function()
   if last_cmd then run_cmd(last_cmd) end
 end, { desc = "Re-run last command" })
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    vim.keymap.set("t", "<Esc>", "<C-\\><C-n>:close<CR>", { buffer = true, silent = true })
+  end,
+})
+
 

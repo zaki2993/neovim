@@ -50,6 +50,12 @@ vim.keymap.set("i", "<Esc>", "<Esc>l", { noremap = true, silent = true })
 -- ~/.config/nvim/after/plugin/motions.lua
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
+vim.keymap.set('n', 's', function()
+  local pat = vim.fn.input("Jump to: ")
+  if pat ~= "" then
+    vim.fn.search(pat, "W")
+  end
+end, { noremap = true, silent = true })
 
 -- Only in normal mode (no completion conflict)
 map("n", "<C-j>", "<C-d>", opts) -- half-page down
