@@ -30,4 +30,10 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "80"
 vim.o.timeoutlen = 300   -- default is 1000; 300 feels snappy
-
+-- Disable automatic commenting on new lines
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        vim.opt_local.formatoptions:remove({ 'c', 'r', 'o' })
+    end,
+})

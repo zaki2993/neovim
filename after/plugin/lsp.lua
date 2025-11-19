@@ -10,7 +10,6 @@ vim.lsp.config('lua_ls', {
   capabilities = caps,
   settings = { Lua = { diagnostics = { globals = { "vim" } } } },
 })
-vim.lsp.config('dartls', { capabilities = caps, cmd = { "dart", "language-server", "--protocol=lsp" } })
 
 -- 2) Enable them (start on matching filetypes)
 vim.lsp.enable({

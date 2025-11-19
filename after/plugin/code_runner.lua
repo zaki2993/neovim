@@ -57,6 +57,8 @@ vim.keymap.set("n", "<leader>r", function()
     cmd = "cd " .. vim.fn.fnameescape(dir)
       .. " && javac -d . " .. vim.fn.fnameescape(tail)
       .. " && java -cp . " .. fqcn
+  elseif ft == "dart" then
+      cmd = "cd " .. vim.fn.fnameescape(dir) .. " && dart run " .. vim.fn.fnameescape(tail)
   elseif ft == "php" then
     local is_test = string.match(tail, "Test%.php$") or string.match(tail, "_test%.php$")
     local has_phpunit = vim.fn.filereadable(vim.fn.fnamemodify(dir .. "/vendor/bin/phpunit", ":p")) == 1

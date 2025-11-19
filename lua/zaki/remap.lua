@@ -50,10 +50,12 @@ vim.keymap.set("i", "<Esc>", "<Esc>l", { noremap = true, silent = true })
 -- ~/.config/nvim/after/plugin/motions.lua
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
+-- 's' = search and jump
 vim.keymap.set('n', 's', function()
   local pat = vim.fn.input("Jump to: ")
   if pat ~= "" then
-    vim.fn.search(pat, "W")
+    vim.fn.search(pat, "W")     -- move to first match
+    vim.fn.setreg('/', pat)     -- store pattern for ; and ,
   end
 end, { noremap = true, silent = true })
 
@@ -64,3 +66,5 @@ vim.keymap.set("n", "gg", "gg0", { noremap = true, silent = true })
 vim.keymap.set("n", "G", "G$", { noremap = true, silent = true })
 vim.keymap.set("v", "gg", "gg0", { noremap = true, silent = true })
 vim.keymap.set("v", "G", "G$", { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>s', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Search in Current File' })
+vim.keymap.set('n', '<leader>pS', require('telescope.builtin').live_grep, { desc = 'Search Project (Grep)' })
