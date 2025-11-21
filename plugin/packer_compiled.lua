@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/zaki/.cache/nvim/packer_hererocks/2.1.1762795099/share/lua/5.1/?.lua;/home/zaki/.cache/nvim/packer_hererocks/2.1.1762795099/share/lua/5.1/?/init.lua;/home/zaki/.cache/nvim/packer_hererocks/2.1.1762795099/lib/luarocks/rocks-5.1/?.lua;/home/zaki/.cache/nvim/packer_hererocks/2.1.1762795099/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/zaki/.cache/nvim/packer_hererocks/2.1.1762795099/lib/lua/5.1/?.so"
+local package_path_str = "/home/zaki/.cache/nvim/packer_hererocks/2.1.1763318511/share/lua/5.1/?.lua;/home/zaki/.cache/nvim/packer_hererocks/2.1.1763318511/share/lua/5.1/?/init.lua;/home/zaki/.cache/nvim/packer_hererocks/2.1.1763318511/lib/luarocks/rocks-5.1/?.lua;/home/zaki/.cache/nvim/packer_hererocks/2.1.1763318511/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/zaki/.cache/nvim/packer_hererocks/2.1.1763318511/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -109,6 +109,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/zaki/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
+  },
+  ["flutter-tools.nvim"] = {
+    config = { "\27LJ\2\nô\1\0\0\a\0\v\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\5\0006\4\0\0'\6\3\0B\4\2\0029\4\4\4B\4\1\2=\4\6\0035\4\a\0=\4\b\3=\3\n\2B\0\2\1K\0\1\0\blsp\1\0\1\blsp\0\nflags\1\0\2\26debounce_text_changes\3ô\3\27allow_incremental_sync\1\17capabilities\1\0\2\nflags\0\17capabilities\0\25default_capabilities\17cmp_nvim_lsp\nsetup\18flutter-tools\frequire\0" },
+    loaded = true,
+    path = "/home/zaki/.local/share/nvim/site/pack/packer/start/flutter-tools.nvim",
+    url = "https://github.com/nvim-flutter/flutter-tools.nvim"
   },
   ["friendly-snippets"] = {
     loaded = true,
@@ -215,6 +221,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: flutter-tools.nvim
+time([[Config for flutter-tools.nvim]], true)
+try_loadstring("\27LJ\2\nô\1\0\0\a\0\v\0\0176\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\t\0005\3\5\0006\4\0\0'\6\3\0B\4\2\0029\4\4\4B\4\1\2=\4\6\0035\4\a\0=\4\b\3=\3\n\2B\0\2\1K\0\1\0\blsp\1\0\1\blsp\0\nflags\1\0\2\26debounce_text_changes\3ô\3\27allow_incremental_sync\1\17capabilities\1\0\2\nflags\0\17capabilities\0\25default_capabilities\17cmp_nvim_lsp\nsetup\18flutter-tools\frequire\0", "config", "flutter-tools.nvim")
+time([[Config for flutter-tools.nvim]], false)
 -- Config for: todo-comments.nvim
 time([[Config for todo-comments.nvim]], true)
 try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\18todo-comments\frequire\0", "config", "todo-comments.nvim")
