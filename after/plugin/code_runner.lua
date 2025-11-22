@@ -1,14 +1,27 @@
--- Reusable floating terminal
-local term_buf = nil
+-- State tracking
+local state = {
+  win = -1,
+  buf = -1
+}
 local last_cmd = nil
 
 local function open_floating_term()
-  local width  = math.floor(vim.o.columns * 0.9)
-  local height = math.floor(vim.o.lines * 0.35)
+  -- 1. If window exists, close it first to avoid duplicates
+  if state.win and vim.api.nvim_win_is_valid(state.win) then
+    vim.api.nvim_win_close(state.win, true)
+  end
+
+  -- 2. Create a fresh scratch buffer for the new terminal
+  state.buf = vim.api.nvim_create_buf(false, true)
+
+  -- 3. Calculate dimensions
+  local width  = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
   local row    = math.floor((vim.o.lines - height) / 2)
   local col    = math.floor((vim.o.columns - width) / 2)
 
-  vim.api.nvim_open_win(0, true, {
+  -- 4. Open the window using the FRESH buffer
+  state.win = vim.api.nvim_open_win(state.buf, true, {
     relative = "editor",
     style = "minimal",
     border = "rounded",
@@ -22,6 +35,7 @@ end
 local function run_cmd(cmd)
   last_cmd = cmd
   open_floating_term()
+  -- Run the command in the new buffer
   vim.cmd("terminal " .. cmd)
   vim.cmd("startinsert")
 end
@@ -40,12 +54,9 @@ vim.keymap.set("n", "<leader>r", function()
   if ft == "python" then
     cmd = "cd " .. vim.fn.fnameescape(dir) .. " && python3 " .. vim.fn.fnameescape(tail)
   elseif ft == "c" then
-    cmd = "cd " .. vim.fn.fnameescape(dir)
-      .. " && gcc " .. vim.fn.fnameescape(tail) .. " -o " .. base .. " && ./" .. base
+    cmd = "cd " .. vim.fn.fnameescape(dir) .. " && gcc " .. vim.fn.fnameescape(tail) .. " -o " .. base .. " && ./" .. base
   elseif ft == "cpp" then
-    cmd = "cd " .. vim.fn.fnameescape(dir)
-      .. " && g++ -std=c++17 " .. vim.fn.fnameescape(tail)
-      .. " -o " .. base .. " && ./" .. base
+    cmd = "cd " .. vim.fn.fnameescape(dir) .. " && g++ -std=c++17 " .. vim.fn.fnameescape(tail) .. " -o " .. base .. " && ./" .. base
   elseif ft == "java" then
     local pkg
     local lines = vim.api.nvim_buf_get_lines(0, 0, math.min(100, vim.api.nvim_buf_line_count(0)), false)
@@ -54,11 +65,8 @@ vim.keymap.set("n", "<leader>r", function()
       if m then pkg = m; break end
     end
     local fqcn = pkg and (pkg .. "." .. base) or base
-    cmd = "cd " .. vim.fn.fnameescape(dir)
-      .. " && javac -d . " .. vim.fn.fnameescape(tail)
-      .. " && java -cp . " .. fqcn
+    cmd = "cd " .. vim.fn.fnameescape(dir) .. " && javac -d . " .. vim.fn.fnameescape(tail) .. " && java -cp . " .. fqcn
   
-  -- PHP SECTION (Fixed Placement)
   elseif ft == "php" then
     local is_test = string.match(tail, "Test%.php$") or string.match(tail, "_test%.php$")
     local has_phpunit = vim.fn.filereadable(vim.fn.fnamemodify(dir .. "/vendor/bin/phpunit", ":p")) == 1
@@ -68,7 +76,6 @@ vim.keymap.set("n", "<leader>r", function()
       cmd = "cd " .. vim.fn.fnameescape(dir) .. " && php " .. vim.fn.fnameescape(tail)
     end
 
-  -- DART/FLUTTER SECTION (Fixed Placement)
   elseif ft == "dart" then
     local pubspec = vim.fs.find("pubspec.yaml", { upward = true, path = dir })[1]
     local is_flutter = false
@@ -98,7 +105,7 @@ vim.keymap.set("n", "<leader>r", function()
   run_cmd(cmd)
 end, { desc = "Run current file" })
 
--- Re-run last without rebuilding
+-- Re-run last
 vim.keymap.set("n", "<leader>R", function()
   if last_cmd then run_cmd(last_cmd) end
 end, { desc = "Re-run last command" })
