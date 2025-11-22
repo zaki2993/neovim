@@ -57,8 +57,8 @@ vim.keymap.set("n", "<leader>r", function()
     cmd = "cd " .. vim.fn.fnameescape(dir)
       .. " && javac -d . " .. vim.fn.fnameescape(tail)
       .. " && java -cp . " .. fqcn
-  elseif ft == "dart" then
-      cmd = "cd " .. vim.fn.fnameescape(dir) .. " && dart run " .. vim.fn.fnameescape(tail)
+  
+  -- PHP SECTION (Fixed Placement)
   elseif ft == "php" then
     local is_test = string.match(tail, "Test%.php$") or string.match(tail, "_test%.php$")
     local has_phpunit = vim.fn.filereadable(vim.fn.fnamemodify(dir .. "/vendor/bin/phpunit", ":p")) == 1
@@ -67,6 +67,29 @@ vim.keymap.set("n", "<leader>r", function()
     else
       cmd = "cd " .. vim.fn.fnameescape(dir) .. " && php " .. vim.fn.fnameescape(tail)
     end
+
+  -- DART/FLUTTER SECTION (Fixed Placement)
+  elseif ft == "dart" then
+    local pubspec = vim.fs.find("pubspec.yaml", { upward = true, path = dir })[1]
+    local is_flutter = false
+    if pubspec then
+      local f = io.open(pubspec, "r")
+      if f then
+        local content = f:read("*a")
+        f:close()
+        if content:match("sdk:%s*flutter") or content:match("flutter:") then
+          is_flutter = true
+        end
+      end
+    end
+
+    if is_flutter then
+      local project_root = vim.fn.fnamemodify(pubspec, ":h")
+      cmd = "cd " .. vim.fn.fnameescape(project_root) .. " && flutter run -d linux"
+    else
+      cmd = "cd " .. vim.fn.fnameescape(dir) .. " && dart run " .. vim.fn.fnameescape(tail)
+    end
+
   else
     vim.notify("No runner for filetype: " .. ft)
     return
@@ -79,10 +102,10 @@ end, { desc = "Run current file" })
 vim.keymap.set("n", "<leader>R", function()
   if last_cmd then run_cmd(last_cmd) end
 end, { desc = "Re-run last command" })
+
+-- Close terminal on Escape
 vim.api.nvim_create_autocmd("TermOpen", {
   callback = function()
     vim.keymap.set("t", "<Esc>", "<C-\\><C-n>:close<CR>", { buffer = true, silent = true })
   end,
 })
-
-
