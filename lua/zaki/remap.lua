@@ -90,8 +90,8 @@ vim.keymap.set("n", "<leader>fq", ":FlutterQuit<CR>")      -- Only works if runn
 -- If closed: it opens. If open: it jumps inside.
 vim.keymap.set("n", "<", vim.lsp.buf.hover)
 
-
--- 2. "Smart Escape" for Floating Windows
+-- "Space + a" to open Code Actions (The VS Code "Lightbulb" menu)
+vim.keymap.set("n", "<leader>fa", vim.lsp.buf.code_action)-- 2. "Smart Escape" for Floating Windows
 -- Automatically maps 'Esc' to close the window ONLY when you enter a popup
 vim.api.nvim_create_autocmd("WinEnter", {
     callback = function()
