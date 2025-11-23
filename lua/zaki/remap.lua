@@ -69,3 +69,37 @@ vim.keymap.set("v", "G", "G$", { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>s', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Search in Current File' })
 vim.keymap.set('n', '<leader>pS', require('telescope.builtin').live_grep, { desc = 'Search Project (Grep)' })
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
+-- 1. TMUX CONTROLS (Matches your workflow)
+-- Send 'r' (Reload) to Tmux Window 2
+vim.keymap.set("n", "<leader>fr", function()
+    vim.fn.system("tmux send-keys -t :2 r")
+    print("Reload sent to Window 2")
+end)
+
+-- Send 'R' (Restart) to Tmux Window 2
+vim.keymap.set("n", "<leader>fR", function()
+    vim.fn.system("tmux send-keys -t :2 R")
+    print("Restart sent to Window 2")
+end)
+
+-- 2. HELPER COMMANDS (Optional)
+-- Only keep these if you occasionally run flutter inside Neovim
+vim.keymap.set("n", "<leader>fe", ":FlutterEmulators<CR>") -- Good for checking devices
+vim.keymap.set("n", "<leader>fq", ":FlutterQuit<CR>")      -- Only works if running inside Nvim
+-- 1. Map '<' to Open/Focus the Documentation
+-- If closed: it opens. If open: it jumps inside.
+vim.keymap.set("n", "<", vim.lsp.buf.hover)
+
+
+-- 2. "Smart Escape" for Floating Windows
+-- Automatically maps 'Esc' to close the window ONLY when you enter a popup
+vim.api.nvim_create_autocmd("WinEnter", {
+    callback = function()
+        -- Check if the current window is floating (like the Hover window)
+        local win_config = vim.api.nvim_win_get_config(0)
+        if win_config.relative ~= "" then
+            -- Map Esc to close this specific window
+            vim.keymap.set("n", "<Esc>", ":close<CR>", { buffer = true, silent = true })
+        end
+    end
+})
