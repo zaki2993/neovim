@@ -77,7 +77,7 @@ vim.keymap.set("n", "<leader>fr", function()
 end)
 
 -- Send 'R' (Restart) to Tmux Window 2
-vim.keymap.set("n", "<leader>fR", function()
+vim.keymap.set("n", "<leader>fhr", function()
     vim.fn.system("tmux send-keys -t :2 R")
     print("Restart sent to Window 2")
 end)
