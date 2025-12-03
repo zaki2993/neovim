@@ -2,18 +2,29 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Ensure truecolor (you already set this in your opts, keep it)
+-- Ensure truecolor
 vim.opt.termguicolors = true
+
+-- Key mapping for ESC
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "NvimTree",
   callback = function()
     vim.keymap.set("n", "<Esc>", ":NvimTreeClose<CR>", { buffer = true, silent = true })
   end,
 })
--- Setup
+
+-- Setup (Consolidated)
 require('nvim-tree').setup({
   hijack_netrw = true,
   sort_by = "case_sensitive",
+  
+  -- This makes the file take the whole display (closes tree upon opening file)
+  actions = {
+    open_file = {
+      quit_on_open = true,
+    },
+  },
+  
   view = { width = 34, side = "left" },
   renderer = {
     group_empty = true,
@@ -22,7 +33,7 @@ require('nvim-tree').setup({
     },
   },
   filters = { dotfiles = false },
-  git = { enable = true, ignore = false }, -- show files even if in .gitignore
+  git = { enable = true, ignore = false },
   diagnostics = {
     enable = true,
     show_on_dirs = true,
@@ -30,6 +41,10 @@ require('nvim-tree').setup({
   },
   update_focused_file = { enable = true, update_root = true },
 })
+
+-- Force NvimTree to use the same background as Neovim (Transparent/Theme match)
+vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = "none" })
 
 -- Keymaps
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = 'File tree: toggle' })
@@ -43,23 +58,3 @@ local function open_nvim_tree(data)
   require('nvim-tree.api').tree.open()
 end
 vim.api.nvim_create_autocmd("VimEnter", { callback = open_nvim_tree })
-require('nvim-tree').setup({
-  view = {
-    float = {
-      enable = true,
-      open_win_config = {
-        relative = "editor",
-        border = "rounded",
-        width = 50,
-        height = 30,
-        row = 2,
-        col = 10,
-      },
-    },
-    width = 50,
-  },
-  renderer = {
-    group_empty = true,
-  },
-})
-

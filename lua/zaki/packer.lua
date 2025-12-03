@@ -134,5 +134,4 @@ use {
 }
     use 'onsails/lspkind.nvim'
     use "rafamadriz/friendly-snippets"
-
 end)
