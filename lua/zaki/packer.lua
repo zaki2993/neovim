@@ -49,6 +49,8 @@ return require('packer').startup(function(use)
   use('ThePrimeagen/harpoon')
   use('mbbill/undotree')
   use('tpope/vim-fugitive')
+-- In lua/zaki/packer.lua
+    use('sainnhe/gruvbox-material') 
 
   -- LSP Support
   use("neovim/nvim-lspconfig")

@@ -75,12 +75,7 @@ vim.keymap.set("n", "<leader>fr", function()
     vim.fn.system("tmux send-keys -t :2 r")
     print("Reload sent to Window 2")
 end)
-require("trouble").setup({
-    icons = false, -- cleaner look
-})
 
--- Keymap: Press <leader>xx to see all errors
-vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
 -- Send 'R' (Restart) to Tmux Window 2
 vim.keymap.set("n", "<leader>fhr", function()
     vim.fn.system("tmux send-keys -t :2 R")

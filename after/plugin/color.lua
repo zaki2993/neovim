@@ -18,12 +18,13 @@ require("catppuccin").setup({
   }
 })
 
+-- 2. Set the colorscheme
 vim.cmd.colorscheme("catppuccin-macchiato")
 
 -- 3. (Optional) Lock background colors if you want consistency
 -- The catppuccin theme already does this, but this makes it explicit.
 -- You might not even need these lines.
-vim.cmd("hi Normal guibg=none")
-vim.cmd("hi NormalNC guibg=none")
-vim.cmd("hi CursorLine guibg=none")
+vim.cmd("hi Normal guibg=#24273a")
+vim.cmd("hi NormalNC guibg=#24273a")
+vim.cmd("highlight CursorLine guibg=#24273a")
 
