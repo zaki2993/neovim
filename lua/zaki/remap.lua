@@ -51,14 +51,14 @@ vim.keymap.set("i", "<Esc>", "<Esc>l", { noremap = true, silent = true })
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 -- 's' = search and jump
-vim.keymap.set('n', 's', function()
-  local pat = vim.fn.input("Jump to: ")
-  if pat ~= "" then
-    vim.fn.search(pat, "W")     -- move to first match
-    vim.fn.setreg('/', pat)     -- store pattern for ; and ,
-  end
-end, { noremap = true, silent = true })
-
+-- vim.keymap.set('n', 's', function()
+--   local pat = vim.fn.input("Jump to: ")
+--   if pat ~= "" then
+--     vim.fn.search(pat, "W")     -- move to first match
+--     vim.fn.setreg('/', pat)     -- store pattern for ; and ,
+--   end
+-- end, { noremap = true, silent = true })
+--
 -- Only in normal mode (no completion conflict)
 map("n", "<C-j>", "<C-d>", opts) -- half-page down
 map("n", "<C-k>", "<C-u>", opts) -- half-page up
@@ -66,8 +66,8 @@ vim.keymap.set("n", "gg", "gg0", { noremap = true, silent = true })
 vim.keymap.set("n", "G", "G$", { noremap = true, silent = true })
 vim.keymap.set("v", "gg", "gg0", { noremap = true, silent = true })
 vim.keymap.set("v", "G", "G$", { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>s', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Search in Current File' })
-vim.keymap.set('n', '<leader>pS', require('telescope.builtin').live_grep, { desc = 'Search Project (Grep)' })
+vim.keymap.set('n', '<leader>fs', require('telescope.builtin').current_buffer_fuzzy_find, { desc = 'Search in Current File' })
+vim.keymap.set('n', '<leader>ps', require('telescope.builtin').live_grep, { desc = 'Search Project ' })
 vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
 -- 1. TMUX CONTROLS (Matches your workflow)
 -- Send 'r' (Reload) to Tmux Window 2
@@ -103,3 +103,6 @@ vim.api.nvim_create_autocmd("WinEnter", {
         end
     end
 })
+-- Spring Boot: Generate New Project
+-- Uses 'n' (New) to avoid conflict with 's' (Search)
+vim.keymap.set("n", "<leader>ns", "<cmd>SpringInitializr<CR>", { desc = "New Spring Boot Project" })

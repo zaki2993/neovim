@@ -1,0 +1,67 @@
+NEOVIM CONFIGURATION GUIDE
+==========================
+
+This file explains your custom Neovim setup. Reference this when you forget shortcuts or where files are located.
+
+--- QUICK REFERENCE ---
+Leader Key: Space Bar (<Space>)
+
+Most used commands:
+- Open File Explorer:  <Space> + pv
+- Run Code:            <Space> + r   (Runs Python, C, C++, Java, Dart)
+- Search in File:      <Space> + s
+- Search Project:      <Space> + pS
+- Save File:           <Space> + w
+
+--- FILE STRUCTURE ---
+Your config is split into modules. Here is where everything lives:
+
+1. MAPPINGS (Keybinds)
+   File: lua/zaki/remap.lua
+   - Go here to change shortcuts or add new key combinations.
+   - Contains the "Run Code" logic and Tmux integration.
+
+2. PLUGINS (Installation)
+   File: lua/zaki/packer.lua
+   - Go here to install new plugins.
+   - Add use 'plugin-name' inside the startup function.
+   - Run :PackerSync after making changes.
+
+3. PLUGIN SETTINGS (Configuration)
+   Folder: after/plugin/
+   - Individual files for each plugin's specific settings (e.g., lsp.lua, telescope.lua).
+
+--- KEY BINDINGS CHEAT SHEET ---
+
+[ Navigation ]
+s           : Search for a pattern and jump to it (Custom "Flash" like movement)
+Ctrl + j    : Scroll half-page DOWN
+Ctrl + k    : Scroll half-page UP
+gg          : Go to the very first character of the file
+G           : Go to the very last character of the file
+<Esc> (Ins) : Exits Insert mode and moves cursor one right (standardizes position)
+
+[ Coding & LSP ]
+< (Key)     : Hover documentation (Show info about function/variable under cursor)
+<Space> + fa: Code Actions (The "lightbulb" menu for fixes)
+<Esc>       : Closes floating windows (like hover docs) automatically
+
+[ Tmux Integration ]
+<Space> + fr  : Reloads the program in Tmux Window 2 (sends 'r')
+<Space> + fhr : Restarts the program in Tmux Window 2 (sends 'R')
+
+--- CODE RUNNER ---
+Command: <Space> + r
+
+How it works:
+- It saves the file first.
+- Detects the file type (Python, C, C++, Dart, Java).
+- Opens a small split terminal at the bottom.
+- Compiles (if needed) and runs the code.
+
+--- HOW TO ADD A NEW PLUGIN ---
+1. Open lua/zaki/packer.lua
+2. Add a line: use('author/plugin-name')
+3. Save the file (:w).
+4. Run command: :PackerSync
+5. Restart Neovim.

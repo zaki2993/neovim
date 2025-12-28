@@ -126,6 +126,14 @@ return require('packer').startup(function(use)
       })
     end,
   })
+    use {
+    'jkeresman01/spring-initializr.nvim',
+    requires = {
+        'nvim-lua/plenary.nvim',   -- You likely already have this
+        'MunifTanjim/nui.nvim',    -- UI Component Library
+        'nvim-telescope/telescope.nvim' -- For searching dependencies
+    }
+}
     -- In your packer startup function
 use {
     'akinsho/flutter-tools.nvim',
